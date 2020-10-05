@@ -12,7 +12,7 @@ public class GameRules {
      * user name, birthdate, age, (password created successully banner)
      * (bonus) try printing password in *** format.
      */
-    /**a
+    /**
      * condition 1 - first name & last name
      * 1. must not include special characters & numbers
      * 2. if first letter is not entered as "capital" then turn first letter to capital then save
