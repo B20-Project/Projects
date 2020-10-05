@@ -10,7 +10,7 @@ public class Password_Verification_Task_Complete {
         String firstname, lastname, username, birthDate, password;
         String number = "0123456789";
         String specialCharacter = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
-        String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"; // All Special Characters
         String passwordReplace = "";
         char[] numbers = number.toCharArray();
         char[] specialCharacters = specialCharacter.toCharArray();
