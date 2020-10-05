@@ -8,9 +8,9 @@ public class Password_Verification_Task_Complete {
 
         Scanner scan = new Scanner(System.in);
         String firstname, lastname, username, birthDate, password;
-        String number = "0123456789";
-        String specialCharacter = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
-        String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String number = "0123456789"; // All Numbers
+        String specialCharacter = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"; // All Special Characters
+        String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"; // All letters
         String passwordReplace = "";
         char[] numbers = number.toCharArray();
         char[] specialCharacters = specialCharacter.toCharArray();
