@@ -17,6 +17,7 @@ public class VerifyName {
                 digitCount = (int) Arrays.stream(firstName).filter(each -> Character.isDigit(each.charAt(0))).count();
                 specialCount = (int) Arrays.stream(firstName).filter(each -> !Character.isLetterOrDigit(each.charAt(0))).count();
                 spaceCount = (int) Arrays.stream(firstName).filter(String::isBlank).count();
+
                 if (firstName.length<2||firstName.length>16) System.out.println("name cannot be less than 2, more than 16 characters");
                 if (digitCount!=0) System.out.println("name cannot contain numbers");
                 if (specialCount!=0) System.out.println("name cannot contain special characters");
