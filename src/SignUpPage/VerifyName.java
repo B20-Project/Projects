@@ -8,9 +8,11 @@ public class VerifyName {
         Scanner scan = new Scanner(System.in);
         String[] firstName; String again="";
         int digitCount=0,specialCount=0,spaceCount=0;
+
         do {
             System.out.println("enter your name "+again+"please");
             firstName = scan.nextLine().split("");
+
             if (!firstName[0].isEmpty()) {
                 digitCount = (int) Arrays.stream(firstName).filter(each -> Character.isDigit(each.charAt(0))).count();
                 specialCount = (int) Arrays.stream(firstName).filter(each -> !Character.isLetterOrDigit(each.charAt(0))).count();
@@ -21,6 +23,7 @@ public class VerifyName {
                 if (spaceCount!=0) System.out.println("name cannot contain space");
             }else System.out.println("name cannot be empty");
             again="again ";
+
         }while(digitCount!=0||specialCount!=0||spaceCount!=0||firstName[0].isEmpty()||firstName.length<2||firstName.length>16);
     }
 }
