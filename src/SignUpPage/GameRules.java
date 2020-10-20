@@ -9,7 +9,7 @@ public class GameRules {
      * ask user to enter birthdate
      * ask user to enter password
      * once verification is done, print out a detailed report with first name last name
-     * user name, birthdate, age, (password created successully banner)
+     * user name, birthdate, age, (password created successfully banner)
      * (bonus) try printing password in *** format.
      */
     /**
@@ -23,7 +23,7 @@ public class GameRules {
      * 7. must not be empty
      *
      * condition 2 - username
-     * 1. must include atleast one letter, one number, one special character
+     * 1. must include at least one letter, one number, one special character
      * 2. must not be empty
      * 3. must not contain any space
      * 4. must be at least 2 characters long
@@ -38,8 +38,8 @@ public class GameRules {
      * condition 4 - password
      * 1. must be at least 8 characters long
      * 2. must be less than 16 characters long
-     * 3. must contain atleast one letter
-     * 4. must contain atleast one number
+     * 3. must contain at least one letter
+     * 4. must contain at least one number
      * 5. must contain at least one special character
      * 6. must not contain space
      * 7. must not have repeating characters more than twice in a row
