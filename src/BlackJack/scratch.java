@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class scratch {
     public static void main(String[] args) {
-        System.out.println("Welcome to blackjack\nWould you like to play?");
+       /*System.out.println("Welcome to blackjack\nWould you like to play?");
         Scanner scan = new Scanner(System.in);
         String play=scan.next();
         if(play.equals("yes")) {
@@ -36,6 +36,8 @@ public class scratch {
                     cards[randNum] = cards[i];
                     cards[i] = temp;
                 }
+
+
                 int order = 0;
 
                 //                                              Player
@@ -294,17 +296,16 @@ public class scratch {
                             System.out.println("Player, would you like another hit? If yes tye 'h' if no type 'n'");
                             sum = scan.next();
                             if (sum.equals("h")) {
-
                                 System.out.println(cards[order]);
                                 if (Character.isDigit(cards[order].charAt(0)) && cards[order].charAt(0) != '1') {
                                     totalSumPlayer += Integer.parseInt(cards[order].substring(0, 1));
                                 } else if (cards[order].charAt(0) != 'A') {
                                     totalSumPlayer += 10;
                                 } else if (cards[order].charAt(0) == 'A') {
-                                    if (totalSumPlayer + 11 > 21) {
-                                        totalSumPlayer = sumPlayer[0] + 1;
-                                    } else {
-                                        totalSumPlayer = totalSumPlayer + 11;
+                                    if (totalSumPlayer + 11 > 21) {                 //
+                                        totalSumPlayer = sumPlayer[0] + 1;          //
+                                    } else {                                        //
+                                        totalSumPlayer = totalSumPlayer + 11;       //
                                     }
 
                                 }
@@ -313,12 +314,11 @@ public class scratch {
                         }
                     } while (sum.equals("h"));
                     if (sum.equals("n")) {
-                        order++;
                         System.out.println();
                         System.out.println("Dealers second card:");
-                        System.out.println(dealersCard2);
                         order++;
-
+                        dealersCard2=cards[order];
+                        System.out.println(dealersCard2);
                         if (dealersCard2.charAt(0) == '1' || dealersCard2.charAt(0) == 'J' || dealersCard2.charAt(0) == 'K' ||
                                 dealersCard2.charAt(0) == 'Q') {
                             sumDealer[0] += 10;
@@ -423,7 +423,8 @@ public class scratch {
         }
         else{
             System.out.println("Bye");
-        }
+        }*/
+
     }
 }
 
