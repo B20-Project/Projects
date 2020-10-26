@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class scratch {
     public static void main(String[] args) {
-       /*System.out.println("Welcome to blackjack\nWould you like to play?");
+       System.out.println("Welcome to blackjack\nWould you like to play?");
         Scanner scan = new Scanner(System.in);
         String play=scan.next();
         if(play.equals("yes")) {
@@ -423,7 +423,7 @@ public class scratch {
         }
         else{
             System.out.println("Bye");
-        }*/
+        }
 
     }
 }
