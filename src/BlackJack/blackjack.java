@@ -7,18 +7,25 @@ public class blackjack {
         String anotherGame="";
         do {
             Scanner scan = new Scanner(System.in);
-            String[] cards = Shuffle(Deck());
-            playerMsg(cards);
-            dealer(cards);
-            System.out.println("Player would you like a hit?");
-            String hit = scan.next();
-            if (hit.equals("no")) {
-                NoHit(cards);
+            String[] cards = Shuffle(Deck());                //Shuffle cards
+            playerMsg(cards);                                //Player's info
+            dealer(cards);                                   //Dealer's info
+            if (playerSum(cards)[0] == 21) {
+                System.out.println("Player wins");          //Blackjack
             } else {
+                System.out.println("Player would you like a hit? Type 'h' if yes else 'n'");
+                String hit = scan.next();
+                if (hit.equals("n")) {
+                    NoHit(cards);
+                } else {
+                    Hit(cards);
+                }
             }
-            System.out.println("Another game?");
-            anotherGame=scan.next();
-        }while(anotherGame.equals("yes"));
+                System.out.println("Another game?");
+                anotherGame = scan.next();
+
+        } while (anotherGame.equals("yes")) ;
+
     }
 
 
@@ -177,7 +184,6 @@ public class blackjack {
     }
     public static void NoHit(String[]cards){
         int sum=0;
-        Scanner scan=new Scanner(System.in);
         String[]dealersCard={DealersCard(cards)[0],DealersCard(cards)[1]};
         System.out.println("Dealers second card");
         System.out.println(dealersCard[1]);
@@ -192,7 +198,7 @@ public class blackjack {
        if(dealerSum(cards)[0]==21){
            System.out.println("Dealer wins");
        }
-       else if(dealerSum(cards)[0]<18){
+       else if(dealerSum(cards)[0]<17){
            System.out.println(cards[order]);
            if(cards[order].charAt(0)=='A'){
                if(dealerSum(cards)[1]!=0){
@@ -232,7 +238,7 @@ public class blackjack {
            System.out.println("Dealer now has "+sum);
 
            order++;
-           if(sum<18){
+           if(sum<17){
                do{
                    System.out.println(cards[order]);
                    if(cards[order].charAt(0)=='A'){
@@ -254,7 +260,7 @@ public class blackjack {
                    }
                    System.out.println("Dealer now has "+sum);
                    order++;
-               }while(sum<18);
+               }while(sum<17);
            }
            System.out.println();
 
@@ -271,15 +277,201 @@ public class blackjack {
        else if(sum<playerSum(cards)[0]){
            System.out.println("Player wins");
        }
+
        else{
            System.out.println("it's a tie");
        }
 
     }
     public static void Hit(String[]cards){
+        Scanner scan=new Scanner(System.in);
+        String hit="";
+        int sum=0;
+        System.out.println(cards[order]);
+        if(cards[order].charAt(0)=='A'){
+            if(playerSum(cards)[1]!=0){
+                sum=playerSum(cards)[0]+1;
+            }
+            else{
+                if(playerSum(cards)[0]+11>21){
+                    sum=playerSum(cards)[0]+1;
+                }
+                else{
+                    sum=playerSum(cards)[0]+11;
+                }
+            }
+        }
+        else if(cards[order].charAt(0)=='1'||cards[order].charAt(0)=='J'||cards[order].charAt(0)=='K'||
+                cards[order].charAt(0)=='Q'){
+            if(playerSum(cards)[1]!=0){
+                sum=playerSum(cards)[0];
+            }
+            else{
+                sum=playerSum(cards)[0]+10;
+            }
+        }
+        else{
+            if(playerSum(cards)[1]!=0){
+                if(playerSum(cards)[0]+Integer.parseInt(cards[order].substring(0,1))>21){
+                    sum=playerSum(cards)[1]+Integer.parseInt(cards[order].substring(0,1));
+                }
+                else{
+                    sum=playerSum(cards)[0]+Integer.parseInt(cards[order].substring(0,1));
+                }
+            }
+            else{
+                sum=playerSum(cards)[0]+Integer.parseInt(cards[order].substring(0,1));
+            }
+        }
+        if(sum>21){
+            System.out.println(sum);
+            System.out.println("Dealer wins");
+        }
+        else if(sum==21){
+            System.out.println(sum);
+            System.out.println("Player wins");
+        }
+        else {
+            System.out.println("Player now has " + sum);
+            order++;
+            do {
+                System.out.println("Would you like another hit? Type 'h' if yes else 'n");
+                hit = scan.next();
+                if (hit.equals("h")) {
+                    System.out.println(cards[order]);
+                    if (cards[order].charAt(0) == 'A') {
+                        if (sum + 11 > 21) {
+                            sum = sum + 1;
+                        } else {
+                            sum = sum + 11;
+                        }
+                    } else {
+                        if (cards[order].charAt(0) == '1' || cards[order].charAt(0) == 'J' || cards[order].charAt(0) == 'Q' ||
+                                cards[order].charAt(0) == 'K') {
+                            sum += 10;
+                        } else {
+                            sum += Integer.parseInt(cards[order].substring(0, 1));
+                        }
+                    }
+                    System.out.println("player now has " + sum);
+                    order++;
+                }
+            } while (hit.equals("h")&&sum<21);
+
+        if(sum>21){
+            System.out.println("Dealer wins");
+        }
+        else if(sum==21){
+            System.out.println("Player wins");
+        }
+        }
+
+        if(hit.equals("n")){
+            order++;
+            int dealerSum=0;
+            String[]dealersCard={DealersCard(cards)[0],DealersCard(cards)[1]};
+            System.out.println("Dealers second card");
+            System.out.println(dealersCard[1]);
+            System.out.print("Dealer has value of:");
+            if(dealerSum(cards)[1]!=0){
+                System.out.println(dealerSum(cards)[0]+" or "+dealerSum(cards)[1]);
+            }
+            else{
+                dealerSum=dealerSum(cards)[0];
+                System.out.println(dealerSum);
+            }
+            if(dealerSum(cards)[0]==21){
+                System.out.println("Dealer wins");
+            }
+            else if(dealerSum(cards)[0]<17){
+                System.out.println(cards[order]);
+                if(cards[order].charAt(0)=='A'){
+                    if(dealerSum(cards)[1]!=0){
+                        dealerSum=dealerSum(cards)[0]+1;
+                    }
+                    else{
+                        if(dealerSum(cards)[0]+11>21){
+                            dealerSum=dealerSum(cards)[0]+1;
+                        }
+                        else{
+                            dealerSum=dealerSum(cards)[0]+11;
+                        }
+                    }
+                }
+                else if(cards[order].charAt(0)=='1'||cards[order].charAt(0)=='J'||cards[order].charAt(0)=='K'||
+                        cards[order].charAt(0)=='Q'){
+                    if(dealerSum(cards)[1]!=0){
+                        dealerSum=dealerSum(cards)[0];
+                    }
+                    else{
+                        dealerSum=dealerSum(cards)[0]+10;
+                    }
+                }
+                else{
+                    if(dealerSum(cards)[1]!=0){
+                        if(dealerSum(cards)[0]+Integer.parseInt(cards[order].substring(0,1))>21){
+                            dealerSum=dealerSum(cards)[1]+Integer.parseInt(cards[order].substring(0,1));
+                        }
+                        else{
+                            dealerSum=dealerSum(cards)[0]+Integer.parseInt(cards[order].substring(0,1));
+                        }
+                    }
+                    else{
+                        dealerSum=dealerSum(cards)[0]+Integer.parseInt(cards[order].substring(0,1));
+                    }
+                }
+                System.out.println("Dealer now has "+dealerSum);
+
+                order++;
+                if(dealerSum<17){
+                    do{
+                        System.out.println(cards[order]);
+                        if(cards[order].charAt(0)=='A'){
+                            if(dealerSum+11>21){
+                                dealerSum++;
+                            }
+                            else{
+                                dealerSum+=11;
+                            }
+                        }
+                        else{
+                            if(cards[order].charAt(0)=='1'||cards[order].charAt(0)=='J'||cards[order].charAt(0)=='Q'||
+                                    cards[order].charAt(0)=='K'){
+                                dealerSum+=10;
+                            }
+                            else{
+                                dealerSum+=Integer.parseInt(cards[order].substring(0,1));
+                            }
+                        }
+                        System.out.println("Dealer now has "+dealerSum);
+                        order++;
+                    }while(dealerSum<17);
+                }
+                System.out.println();
+            }
+            if(dealerSum>21){
+                System.out.println("Player wins");
+            }
+            else if(dealerSum==21){
+                System.out.println("Dealer wins");
+            }
+            else if(dealerSum<sum){
+                System.out.println("Player wins");
+            }
+            else if(dealerSum>sum){
+                System.out.println("Dealer wins");
+            }
+            else{
+                System.out.println("It's a tie");
+            }
+
+
+        }
+        System.out.println();
+
+
 
     }
-
 }
 
 
