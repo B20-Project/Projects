@@ -1,4 +1,5 @@
 package BlackJack;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 public class blackjack {
@@ -7,7 +8,7 @@ public class blackjack {
         String anotherGame="";
         do {
             Scanner scan = new Scanner(System.in);
-            String[] cards = Shuffle(Deck());                //Shuffle cards
+            String[] cards = Shuffle(Deck());                   //Shuffle cards
             playerMsg(cards);                                //Player's info
             dealer(cards);                                   //Dealer's info
             if (playerSum(cards)[0] == 21) {
@@ -27,8 +28,6 @@ public class blackjack {
         } while (anotherGame.equals("yes")) ;
 
     }
-
-
     public static String[] Deck() {
         String[] values = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
         String[] suits = {"CLUB", "DIAMOND", "SPADE", "HEART"};
@@ -42,7 +41,6 @@ public class blackjack {
         }
         return cards;
     }
-
     public static String[] Shuffle(String[] shuffle) {
         Random random = new Random();
         for (int i = 0; i < shuffle.length; i++) {
@@ -92,6 +90,7 @@ public class blackjack {
             else{
                 sum [0]+= 10;
             }
+
         }
         else if(cards[1].charAt(0)=='A'){
             if(sum[0]==11){
