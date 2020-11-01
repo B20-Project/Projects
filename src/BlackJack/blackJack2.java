@@ -10,14 +10,13 @@ public class blackJack2 {
     static int order=0;
     static String[]cards=Deck();
     static String[]deck=Shuffle(cards);
-
     public static void main(String[] args) {
         System.out.println(Arrays.toString(deck));
         System.out.println("player has ");
         System.out.println(draw());
         System.out.println(draw());
         System.out.println("player has value of:");
-       // System.out.println(value());
+        System.out.println(value());
     }
     public static String[] Deck() {
         String[] values = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
@@ -47,8 +46,11 @@ public class blackJack2 {
         order++;
         return str;
     }
-   /* public static int value(){
+    public static int value(){
+        int i;
+        i=Integer.parseInt(draw().substring(0,1));
+        return i;
+    }
 
-    }*/
 
 }
