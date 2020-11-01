@@ -384,6 +384,5 @@ public class project {
         System.out.println("Birth date: "+birthDateFormat);
         System.out.println("Age: "+age);
         System.out.println("Password: "+"*".repeat(password.length()));
-
     }
 }
