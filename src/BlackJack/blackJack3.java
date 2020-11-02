@@ -207,7 +207,6 @@ public class blackJack3 {
         } else {
             System.out.println("it's a tie");
         }
-
     }
 
     public static void Hit(String[] cards) {
