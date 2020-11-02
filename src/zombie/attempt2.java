@@ -6,10 +6,8 @@ import java.util.Arrays;
 public class attempt2 {
     public static void main(String[] args) {
         int day = 0;
-        int[] inhabitants = {3, 6, 0, 4, 3, 2, 7,0};
+        int[] inhabitants = {3, 6, 0, 4, 0, 2, 7,0};
         int[]array =new int[inhabitants.length];
-
-
         for (int i = 0; i < array.length; i++) {
             array[i]=0;
         }
