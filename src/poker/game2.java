@@ -27,6 +27,8 @@ public class game2 {
         System.out.println();
         CommunityCards();
         TheFlop(player1);
+        TheFlop(player2);
+        TheFlop(player3);
 
     }
     public static ArrayList<String> Cards() {
@@ -78,8 +80,14 @@ public class game2 {
                 }
             }
         }
-        if(sameCard>0){
-            System.out.println("pair");
+        if(sameCard == 1){
+            System.out.println("one pair");
+        }
+        else if(sameCard==2){
+            System.out.println("Two Pair");
+        }
+        else if(sameCard==3){
+            System.out.println("Three of a kind");
         }
     }
 
