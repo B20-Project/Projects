@@ -29,7 +29,6 @@ public class game2 {
         TheFlop(player1);
         TheFlop(player2);
         TheFlop(player3);
-
     }
     public static ArrayList<String> Cards() {
         ArrayList<String> Cards=new ArrayList<>();
@@ -69,7 +68,30 @@ public class game2 {
     }
     public static void Rank(ArrayList<String>player){
         int sameCard=0;
+        int straight=0;
         ArrayList<Character>eachChr=new ArrayList<>();
+        ArrayList<Integer>eachNum=new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            String value=player.get(i).substring(0,1);
+            switch (value) {
+                case "1" -> eachNum.add(10);
+                case "2" -> eachNum.add(2);
+                case "3" -> eachNum.add(3);
+                case "4" -> eachNum.add(4);
+                case "5" -> eachNum.add(5);
+                case "6" -> eachNum.add(6);
+                case "7" -> eachNum.add(7);
+                case "8" -> eachNum.add(8);
+                case "9" -> eachNum.add(9);
+                case "J" -> eachNum.add(11);
+                case "Q" -> eachNum.add(12);
+                case "K" -> eachNum.add(13);
+                case "A" -> eachNum.add(14);
+            }
+        }
+        Collections.sort(eachNum);
+        System.out.println(eachNum);
+
         for (int i = 0; i < 5; i++) {
             eachChr.add(player.get(i).charAt(0));
         }
@@ -90,7 +112,4 @@ public class game2 {
             System.out.println("Three of a kind");
         }
     }
-
-
-
 }
