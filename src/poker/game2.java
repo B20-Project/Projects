@@ -25,11 +25,20 @@ public class game2 {
         HoleCards(player3);
         draw=1;
         System.out.println();
-        CommunityCards();
+        CommunityCards(0,3);
         TheFlop(player1);
         TheFlop(player2);
         TheFlop(player3);
-
+        CommunityCards(3,4);
+        draw=1;
+        TheTurn(player1);
+        TheTurn(player2);
+        TheTurn(player3);
+        CommunityCards(4,5);
+        draw=1;
+        TheRiver(player1);
+        TheRiver(player2);
+        TheRiver(player3);
     }
     public static ArrayList<String> Cards() {
         ArrayList<String> Cards=new ArrayList<>();
@@ -52,8 +61,8 @@ public class game2 {
         Deck.removeAll(player);
         draw++;
     }
-    public static void CommunityCards(){
-        for (int i = 0; i <3 ; i++) {
+    public static void CommunityCards(int index1, int index2){
+        for (int i = index1; i <index2 ; i++) {
             communityCards.add(Deck.get(i));
         }
         System.out.println("Community cards:");
@@ -63,7 +72,7 @@ public class game2 {
     public static void TheFlop(ArrayList<String>player){
         player.addAll(communityCards);
         System.out.println("player"+draw);
-        System.out.println(player.get(0)+" and "+player.get(1));
+        System.out.println(player.get(0)+"   "+player.get(1));
 
         Rank(player);
         draw++;
@@ -77,8 +86,8 @@ public class game2 {
         ArrayList<Integer>eachNum=new ArrayList<>();
         ArrayList<String>suits=new ArrayList<>();
 
-        for (int i = 0; i < 5; i++) {
-            String value=player.get(i).substring(0,1);
+        for (String s : player) {
+            String value = s.substring(0, 1);
             switch (value) {
                 case "A" -> eachNum.add(14);
                 case "2" -> eachNum.add(2);
@@ -95,21 +104,18 @@ public class game2 {
                 case "K" -> eachNum.add(13);
             }
         }
-        for (int i = 0; i < 5; i++) {
-            if(player.get(i).contains("C")){
+        for (String s : player) {
+            if (s.contains("C")) {
                 suits.add("CLUB");
-            }
-            else if(player.get(i).contains("I")){
+            } else if (s.contains("I")) {
                 suits.add("DIAMOND");
-            }
-            else if(player.get(i).contains("S")){
+            } else if (s.contains("S")) {
                 suits.add("SPADE");
-            }
-            else if(player.get(i).contains("H")){
+            } else if (s.contains("H")) {
                 suits.add("HEART");
             }
         }
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < player.size(); i++) {
             flush=Collections.frequency(suits,suits.get(i));
             if(flush==5){
                 break;
@@ -120,8 +126,8 @@ public class game2 {
         arr[0]=Collections.frequency(eachNum,eachNum.get(0));
         arr[1]=Collections.frequency(eachNum,eachNum.get(1));
         for (int i = 0; i <6 ; i++) {
-            for (int j = i+1; j <player.size() ; j++) {
-                if(player.get(i).equals(player.get(j))){
+            for (int j = i+1; j <eachNum.size() ; j++) {
+                if(eachNum.get(i).equals(eachNum.get(j))){
                     sameCard++;
                 }
             }
@@ -149,6 +155,9 @@ public class game2 {
                     }
                 }
             }
+        if(eachNum.contains(2)&&eachNum.contains(3)&&eachNum.contains(4)&&eachNum.contains(5)&&eachNum.contains(14)){
+            isStraight=true;
+        }
             if(RoyalFlush){
                 System.out.println("Player "+draw+" has Royal flush");
             }
@@ -158,8 +167,7 @@ public class game2 {
             else if(arr[0]==4||arr[1]==4){
                 System.out.println("Player "+draw+" has Four Of A Kind");
             }
-            else if((communityCards.contains(player.get(0))||communityCards.contains(player.get(1)))
-            &&sameCard>=4){
+            else if((arr[0]>1||arr[1]>1)&&sameCard>=4){
                 System.out.println("Player "+draw+" has Full House");
             }
             else if(flush==5){
@@ -171,9 +179,14 @@ public class game2 {
             else if(arr[0]==3||arr[1]==3){
                 System.out.println("Player " + draw + " has Three of A Kind");
             }
-            else if(arr[0]==2||arr[1]==2){
+            else if((arr[0]==2||arr[1]==2)&&sameCard==2){
+                System.out.println("Player " + draw + " Two Pair");
+
+            }
+            else if(arr[0]==2||arr[1]>=2){
                 System.out.println("Player " + draw + " has One Pair");
             }
+
             else{
                 System.out.println("Player " + draw + " has High Card");
             }
@@ -181,5 +194,19 @@ public class game2 {
 
 
 
+    }
+    public static void TheTurn(ArrayList<String>player){
+        player.add(Deck.get(3));
+        System.out.println("player"+draw);
+        System.out.println(player.get(0)+"   "+player.get(1));
+        Rank(player);
+        draw++;
+    }
+    public static void TheRiver(ArrayList<String>player){
+        player.add(Deck.get(4));
+        System.out.println("player"+draw);
+        System.out.println(player.get(0)+"   "+player.get(1));
+        Rank(player);
+        draw++;
     }
 }
