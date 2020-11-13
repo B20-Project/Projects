@@ -6,41 +6,46 @@ import java.util.Collections;
 import java.util.List;
 
 public class game2 {
-    final static List<String> cards= Arrays.asList("2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A");
-    final static List<String> suits=Arrays.asList("CLUB", "DIAMOND", "SPADE", "HEART");
-    final static ArrayList<String> Cards=Cards();
-    final static ArrayList<String>Deck=Shuffle(Cards());
-    final static ArrayList<String>player1=new ArrayList<>();
-    final static ArrayList<String>player2=new ArrayList<>();
-    final static ArrayList<String>player3=new ArrayList<>();
-    final static ArrayList<String>communityCards=new ArrayList<>();
-    static int draw=1;
-
-    public static void main(String[] args) {
+     static List<String> cards= Arrays.asList("2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A");
+     static List<String> suits=Arrays.asList("CLUB", "DIAMOND", "SPADE", "HEART");
+     static ArrayList<String> Cards=Cards();
+     static ArrayList<String>Deck=Shuffle(Cards());
+     static ArrayList<String>player1=new ArrayList<>();
+     static ArrayList<String>player2=new ArrayList<>();
+     static ArrayList<String>player3=new ArrayList<>();
+     static ArrayList<String>communityCards=new ArrayList<>();
+     static int player1Rank;
+     static int player2Rank;
+     static int player3Rank;
+     static int NumOfPpl=1;
+     public static void main(String[] args) {
         System.out.println(Cards);
         System.out.println(Deck);
         System.out.println();
         HoleCards(player1);
         HoleCards(player2);
         HoleCards(player3);
-        draw=1;
+        NumOfPpl=1;
         System.out.println();
         CommunityCards(0,3);
         TheFlop(player1);
         TheFlop(player2);
         TheFlop(player3);
         CommunityCards(3,4);
-        draw=1;
+        NumOfPpl=1;
         TheTurn(player1);
         TheTurn(player2);
         TheTurn(player3);
+        ShowResult();
         CommunityCards(4,5);
-        draw=1;
+        NumOfPpl=1;
         TheRiver(player1);
         TheRiver(player2);
         TheRiver(player3);
+        ShowResult();
+        Show5Cards();
     }
-    public static ArrayList<String> Cards() {
+     public static ArrayList<String> Cards() {
         ArrayList<String> Cards=new ArrayList<>();
         for (String s : cards) {
             for (String suit : suits) {
@@ -49,19 +54,19 @@ public class game2 {
         }
         return Cards;
     }
-    public static ArrayList<String> Shuffle(ArrayList<String> cards){
+     public static ArrayList<String> Shuffle(ArrayList<String> cards){
         Collections.shuffle(cards);
         return cards;
     }
-    public static void HoleCards(ArrayList<String>player){
+     public static void HoleCards(ArrayList<String>player){
         player.add(Deck.get(0));
         player.add(Deck.get(1));
-        System.out.println("Player:"+draw);
+        System.out.println("Player:"+NumOfPpl);
         System.out.println(player);
         Deck.removeAll(player);
-        draw++;
+        NumOfPpl++;
     }
-    public static void CommunityCards(int index1, int index2){
+     public static void CommunityCards(int index1, int index2){
         for (int i = index1; i <index2 ; i++) {
             communityCards.add(Deck.get(i));
         }
@@ -69,70 +74,50 @@ public class game2 {
         System.out.println(communityCards);
         System.out.println();
     }
-    public static void TheFlop(ArrayList<String>player){
+     public static void TheFlop(ArrayList<String>player){
         player.addAll(communityCards);
-        System.out.println("player"+draw);
-        System.out.println(player.get(0)+"   "+player.get(1));
-
+        System.out.println("player"+NumOfPpl);
+        System.out.println(player);
         Rank(player);
-        draw++;
+        NumOfPpl++;
     }
-    public static void Rank(ArrayList<String>player){
+     public static void Rank(ArrayList<String>player){
+        int Rank;
         int sameCard=0;
-        int[]arr=new int[2];
         int straight=0;
         boolean isStraight=false;
+        boolean isFourOFAKind=false;
+        boolean isThreeOfAKind=false;
+        boolean isPair=false;
         int flush=0;
-        ArrayList<Integer>eachNum=new ArrayList<>();
-        ArrayList<String>suits=new ArrayList<>();
-
-        for (String s : player) {
-            String value = s.substring(0, 1);
-            switch (value) {
-                case "A" -> eachNum.add(14);
-                case "2" -> eachNum.add(2);
-                case "3" -> eachNum.add(3);
-                case "4" -> eachNum.add(4);
-                case "5" -> eachNum.add(5);
-                case "6" -> eachNum.add(6);
-                case "7" -> eachNum.add(7);
-                case "8" -> eachNum.add(8);
-                case "9" -> eachNum.add(9);
-                case "1" -> eachNum.add(10);
-                case "J" -> eachNum.add(11);
-                case "Q" -> eachNum.add(12);
-                case "K" -> eachNum.add(13);
-            }
-        }
-        for (String s : player) {
-            if (s.contains("C")) {
-                suits.add("CLUB");
-            } else if (s.contains("I")) {
-                suits.add("DIAMOND");
-            } else if (s.contains("S")) {
-                suits.add("SPADE");
-            } else if (s.contains("H")) {
-                suits.add("HEART");
-            }
-        }
         for (int i = 0; i < player.size(); i++) {
-            flush=Collections.frequency(suits,suits.get(i));
+            flush=Collections.frequency(CardSuits(player),CardSuits(player).get(i));
             if(flush==5){
                 break;
             }
         }
-        boolean RoyalFlush=(eachNum.contains(10)&&eachNum.contains(11)&&eachNum.contains(12)
-                &&eachNum.contains(13)&&eachNum.contains(14))&&flush==5;
-        arr[0]=Collections.frequency(eachNum,eachNum.get(0));
-        arr[1]=Collections.frequency(eachNum,eachNum.get(1));
+        boolean RoyalFlush=(CardsValue(player).contains(10)&&CardsValue(player).contains(11)&&CardsValue(player).contains(12)
+                &&CardsValue(player).contains(13)&&CardsValue(player).contains(14))&&flush==5;
+         for (int i = 0; i < CardsValue(player).size(); i++) {
+             if(Collections.frequency(CardsValue(player),CardsValue(player).get(i))==4){
+                 isFourOFAKind=true;
+             }
+             else if(Collections.frequency(CardsValue(player),CardsValue(player).get(i))==3){
+                 isThreeOfAKind=true;
+             }
+             else if(Collections.frequency(CardsValue(player),CardsValue(player).get(i))==2){
+                 isPair=true;
+             }
+         }
+
         for (int i = 0; i <6 ; i++) {
-            for (int j = i+1; j <eachNum.size() ; j++) {
-                if(eachNum.get(i).equals(eachNum.get(j))){
+            for (int j = i+1; j <CardsValue(player).size() ; j++) {
+                if(CardsValue(player).get(i).equals(CardsValue(player).get(j))){
                     sameCard++;
                 }
             }
         }
-        List<Integer>sort=new ArrayList<>(eachNum);
+        List<Integer>sort=new ArrayList<>(CardsValue(player));
         for (int i = 0; i < sort.size(); i++) {
             int fre = Collections.frequency(sort, sort.get(i));
             if (fre > 1) {
@@ -141,7 +126,6 @@ public class game2 {
             }
         }
         Collections.sort(sort);
-
             if(sort.size()>=5){
                 for (int i = 0; i < sort.size()-1; i++) {
                    if(sort.get(i)==sort.get(i+1)-1){
@@ -155,58 +139,131 @@ public class game2 {
                     }
                 }
             }
-        if(eachNum.contains(2)&&eachNum.contains(3)&&eachNum.contains(4)&&eachNum.contains(5)&&eachNum.contains(14)){
+        if(CardsValue(player).contains(2)&&CardsValue(player).contains(3)&&CardsValue(player).contains(4)&&CardsValue(player).contains(5)&&CardsValue(player).contains(14)){
             isStraight=true;
         }
+
             if(RoyalFlush){
-                System.out.println("Player "+draw+" has Royal flush");
+                System.out.println("Player "+NumOfPpl+" has Royal flush");
+                Rank =1;
             }
             else if(isStraight&&flush==5){
-                System.out.println("Player "+draw+" has Straight Flush");
+                System.out.println("Player "+NumOfPpl+" has Straight Flush");
+                Rank =2;
             }
-            else if(arr[0]==4||arr[1]==4){
-                System.out.println("Player "+draw+" has Four Of A Kind");
+            else if(isFourOFAKind){
+                System.out.println("Player "+NumOfPpl+" has Four Of A Kind");
+                Rank =3;
             }
-            else if((arr[0]>1||arr[1]>1)&&sameCard>=4){
-                System.out.println("Player "+draw+" has Full House");
+            else if(isThreeOfAKind&&sameCard>=4){
+                System.out.println("Player "+NumOfPpl+" has Full House");
+                Rank =4;
             }
             else if(flush==5){
-                System.out.println("Player "+draw+" Flush");
+                System.out.println("Player "+NumOfPpl+" Flush");
+                Rank =5;
             }
             else if(isStraight){
-                System.out.println("Player "+draw+" has Straight");
+                System.out.println("Player "+NumOfPpl+" has Straight");
+                Rank =6;
             }
-            else if(arr[0]==3||arr[1]==3){
-                System.out.println("Player " + draw + " has Three of A Kind");
+            else if(isThreeOfAKind){
+                System.out.println("Player " + NumOfPpl + " has Three of A Kind");
+               Rank =7;
             }
-            else if((arr[0]==2||arr[1]==2)&&sameCard==2){
-                System.out.println("Player " + draw + " Two Pair");
-
+            else if(isPair&&sameCard>=2){
+                System.out.println("Player " + NumOfPpl + " Two Pair");
+                Rank =8;
             }
-            else if(arr[0]==2||arr[1]>=2){
-                System.out.println("Player " + draw + " has One Pair");
+            else if(isPair){
+                System.out.println("Player " + NumOfPpl + " has One Pair");
+                Rank =9;
             }
 
             else{
-                System.out.println("Player " + draw + " has High Card");
+                System.out.println("Player " + NumOfPpl + " has High Card");
+                Rank =10;
             }
+        if(player.equals(player1)){
+           player1Rank=Rank;
+        }
+        else if(player.equals(player2)){
+            player2Rank=Rank;
+        }
+        else{
+            player3Rank=Rank;
+        }
         System.out.println();
-
-
-
     }
-    public static void TheTurn(ArrayList<String>player){
+     public static void TheTurn(ArrayList<String>player){
         player.add(Deck.get(3));
-        System.out.println("player"+draw);
-        System.out.println(player.get(0)+"   "+player.get(1));
+        System.out.println("player"+NumOfPpl);
+        System.out.println(player);
         Rank(player);
-        draw++;
+        NumOfPpl++;
     }
-    public static void TheRiver(ArrayList<String>player){
+     public static void TheRiver(ArrayList<String>player){
         player.add(Deck.get(4));
-        System.out.println("player"+draw);
-        System.out.println(player.get(0)+"   "+player.get(1));
+        System.out.println("player"+NumOfPpl);
+        System.out.println(player);
         Rank(player);
-        draw++;
+        NumOfPpl++;
     }
+     public static void ShowResult(){
+        System.out.println(player1Rank);
+        System.out.println(player2Rank);
+        System.out.println(player3Rank);
+    }
+     public static ArrayList<Integer>CardsValue(ArrayList<String>player){
+         ArrayList<Integer>value=new ArrayList<>();
+        for (String s:player) {
+            String index1=s.substring(0,1);
+            switch (index1){
+                case "A" -> value.add(14);
+                case "2" -> value.add(2);
+                case "3" -> value.add(3);
+                case "4" -> value.add(4);
+                case "5" -> value.add(5);
+                case "6" -> value.add(6);
+                case "7" -> value.add(7);
+                case "8" -> value.add(8);
+                case "9" -> value.add(9);
+                case "1" -> value.add(10);
+                case "J" -> value.add(11);
+                case "Q" -> value.add(12);
+                case "K" -> value.add(13);
+            }
+        }
+        return value;
+    }
+     public static ArrayList<String>CardSuits(ArrayList<String>player){
+         ArrayList<String>suits=new ArrayList<>();
+         for (String s : player) {
+             if (s.contains("C")) {
+                 suits.add("CLUB");
+             } else if (s.contains("I")) {
+                 suits.add("DIAMOND");
+             } else if (s.contains("S")) {
+                 suits.add("SPADE");
+             } else if (s.contains("H")) {
+                 suits.add("HEART");
+             }
+         }
+         return suits;
+
+     }
+     public static void Show5Cards(){
+        if(player1Rank==1){
+            for (int i = 0; i <3; i++) {
+                if(Collections.frequency(CardSuits(player1),CardSuits(player1).get(i))<5||
+                        (CardsValue(player1).get(i)!=10&&CardsValue(player1).get(i)!=11&&
+                                CardsValue(player1).get(i)!=12&&CardsValue(player1).get(i)!=13&&
+                                CardsValue(player1).get(i)!=14)){
+                    player1.remove(i);
+                    i--;
+                }
+            }
+            System.out.println(player1);
+        }
+     }
 }
