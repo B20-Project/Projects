@@ -43,7 +43,9 @@ public class game2 {
         TheRiver(player2);
         TheRiver(player3);
         ShowResult();
-        Show5Cards();
+        Show5Cards(player1,player1Rank);
+         Show5Cards(player2,player2Rank);
+         Show5Cards(player3,player3Rank);
     }
      public static ArrayList<String> Cards() {
         ArrayList<String> Cards=new ArrayList<>();
@@ -81,10 +83,12 @@ public class game2 {
         Rank(player);
         NumOfPpl++;
     }
+
      public static void Rank(ArrayList<String>player){
         int Rank;
         int sameCard=0;
         int straight=0;
+        boolean isStraightFlush=false;
         boolean isStraight=false;
         boolean isFourOFAKind=false;
         boolean isThreeOfAKind=false;
@@ -92,7 +96,7 @@ public class game2 {
         int flush=0;
         for (int i = 0; i < player.size(); i++) {
             flush=Collections.frequency(CardSuits(player),CardSuits(player).get(i));
-            if(flush==5){
+            if(flush>=5){
                 break;
             }
         }
@@ -142,12 +146,45 @@ public class game2 {
         if(CardsValue(player).contains(2)&&CardsValue(player).contains(3)&&CardsValue(player).contains(4)&&CardsValue(player).contains(5)&&CardsValue(player).contains(14)){
             isStraight=true;
         }
+        if(flush>=5){
+            ArrayList<String>temp=new ArrayList<>(player);
+            for (int i = 0; i < temp.size(); i++) {
+                if(Collections.frequency(CardSuits(temp),CardSuits(temp).get(i))<5){
+                    temp.remove(i);
+                    i--;
+                }
+            }
+            straight=0;
+            ArrayList<Integer>sort1=new ArrayList<>(CardsValue(temp));
+            for (int i = 0; i < sort1.size(); i++) {
+                int fre = Collections.frequency(sort1, sort1.get(i));
+                if (fre > 1) {
+                    sort1.remove(i);
+                    i--;
+                }
+            }
+            Collections.sort(sort1);
+            if(sort1.size()>=5){
+                for (int i = 0; i < sort1.size()-1; i++) {
+                    if(sort1.get(i)==sort1.get(i+1)-1){
+                        straight++;
+                    }
+                    else{
+                        straight=0;
+                    }
+                    if(straight>=4){
+                        isStraightFlush=true;
+                    }
+                }
+            }
+
+        }
 
             if(RoyalFlush){
                 System.out.println("Player "+NumOfPpl+" has Royal flush");
                 Rank =1;
             }
-            else if(isStraight&&flush==5){
+            else if(isStraightFlush){
                 System.out.println("Player "+NumOfPpl+" has Straight Flush");
                 Rank =2;
             }
@@ -252,18 +289,102 @@ public class game2 {
          return suits;
 
      }
-     public static void Show5Cards(){
-        if(player1Rank==1){
+     public static void Show5Cards(ArrayList<String>player,int rank){
+        if(rank==1){
             for (int i = 0; i <3; i++) {
-                if(Collections.frequency(CardSuits(player1),CardSuits(player1).get(i))<5||
-                        (CardsValue(player1).get(i)!=10&&CardsValue(player1).get(i)!=11&&
-                                CardsValue(player1).get(i)!=12&&CardsValue(player1).get(i)!=13&&
-                                CardsValue(player1).get(i)!=14)){
-                    player1.remove(i);
+                if(Collections.frequency(CardSuits(player),CardSuits(player).get(i))<5||
+                        (CardsValue(player).get(i)!=10&&CardsValue(player).get(i)!=11&&
+                                CardsValue(player).get(i)!=12&&CardsValue(player).get(i)!=13&&
+                                CardsValue(player).get(i)!=14)){
+                    player.remove(i);
                     i--;
                 }
             }
-            System.out.println(player1);
+            System.out.println(player);
         }
+        else if(rank==6){
+            for (int i = 0; i < player.size(); i++) {
+                if(Collections.frequency(CardsValue(player),CardsValue(player).get(i))>1){
+                    player.remove(i);
+                    CardsValue(player).remove(i);
+                    i--;
+                }
+            }
+            Straight(player);
+        }
+     }
+     public static void Straight(ArrayList<String>player){
+         ArrayList<Integer>eachNum=CardsValue(player);
+         ArrayList<Integer>sort=new ArrayList<>(eachNum);
+         Collections.sort(sort);
+         int straight=0;
+         for (int i = 0; i <sort.size()-1 ; i++) {
+             if(sort.get(i)==sort.get(i+1)-1){
+                 straight++;
+             }else{
+                 if(straight>=4){
+                     break;
+                 }else{
+                     straight=0;
+                 }
+             }
+         }
+         if(player.size()==7){
+             if(straight==4){
+                 if(sort.get(1)!=sort.get(2)-1){
+                    sort.remove(0);
+                    sort.remove(0);
+                 }
+                 else if(sort.get(0)!=sort.get(1)-1){
+                     sort.remove(0);
+                     sort.remove(sort.size()-1);
+                 }else{
+                     sort.remove(sort.size()-1);
+                     sort.remove(sort.size()-1);
+                 }
+             }
+             if (straight == 5) {
+                 if (sort.get(0) != sort.get(1) - 1) {
+                     sort.remove(0);
+                     sort.remove(0);
+                 } else {
+                     sort.remove(0);
+                     sort.remove(sort.size() - 1);
+                 }
+             }
+             if (straight == 6) {
+                 sort.remove(0);
+                 sort.remove(0);
+             }
+             for (int i = 0; i <eachNum.size(); i++) {
+                 if(!sort.contains(eachNum.get(i))){
+                     player.remove(i);
+                     eachNum.remove(i);
+                     i--;
+                 }
+             }
+         }
+         else if(player.size()==6){
+             if(straight==4){
+                 if(sort.get(0)!=sort.get(1)-1){
+                     sort.remove(0);
+                 }
+                 else{
+                     sort.remove(sort.size()-1);
+                 }
+             }
+             else if(straight==5){
+                 sort.remove(0);
+             }
+             for (int i = 0; i < eachNum.size(); i++) {
+                 if(!sort.contains(eachNum.get(i))){
+                     player.remove(i);
+                     eachNum.remove(i);
+                     i--;
+                 }
+             }
+         }
+         System.out.println(player);
+
      }
 }
