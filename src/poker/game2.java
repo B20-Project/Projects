@@ -302,6 +302,19 @@ public class game2 {
             }
             System.out.println(player);
         }
+        else if(rank==2){
+            ArrayList<Integer>value=new ArrayList<>(CardsValue(player));
+            ArrayList<String>suits=new ArrayList<>(CardSuits(player));
+            for (int i = 0; i < player.size(); i++) {
+                if(Collections.frequency(value,value.get(i))>1&&Collections.frequency(suits,suits.get(i))<5){
+                    player.remove(i);
+                    suits.remove(i);
+                    value.remove(i);
+                    i--;
+                }
+            }
+            Straight(player);
+        }
         else if(rank==6){
             for (int i = 0; i < player.size(); i++) {
                 if(Collections.frequency(CardsValue(player),CardsValue(player).get(i))>1){
