@@ -272,6 +272,7 @@ public class game2 {
         else{
             System.out.println(Show5Cards(player3,player3Rank));
         }
+         System.out.println();
     }
      public static void TheRiver(ArrayList<String>player){
         player.add(Deck.get(4));
@@ -288,6 +289,7 @@ public class game2 {
          else{
              System.out.println(Show5Cards(player3,player3Rank));
          }
+         System.out.println();
     }
      public static void ShowResult(){
      ArrayList<String>players=new ArrayList<>();
@@ -299,6 +301,13 @@ public class game2 {
      ranks.add(player2Rank);
      ranks.add(player3Rank);
      ArrayList<Integer>winner=new ArrayList<>();
+     ArrayList<Integer>Sum=new ArrayList<>();
+     int player1Sum=SumOFPlayers(CardsValue(Show5Cards(player1,player1Rank)));
+     int player2Sum=SumOFPlayers(CardsValue(Show5Cards(player2,player2Rank)));
+     int player3Sum=SumOFPlayers(CardsValue(Show5Cards(player3,player3Rank)));
+     Sum.add(player1Sum);
+     Sum.add(player2Sum);
+     Sum.add(player3Sum);
      int min=Collections.min(ranks);
      int index=0;
          for (int i:ranks) {
@@ -309,9 +318,53 @@ public class game2 {
          }
          System.out.println();
          if(winner.size()==1){
-             System.out.println(players.get(winner.get(0))+" wins");
+             int rank;
+             if(players.get(winner.get(0)).contains("1")){
+                 rank=player1Rank;
+             }
+             else if(players.get(winner.get(0)).contains("2")){
+                 rank=player2Rank;
+             }
+             else{
+                 rank=player3Rank;
+             }
+             System.out.println(players.get(winner.get(0))+" wins "+"with Rank "+rank);
          }
+         else if(player1Rank==8||player2Rank==8||player3Rank==8){
+             if(player1Rank==8&&player2Rank==8&&player3Rank==8){
 
+             }
+         }
+         else{
+             ArrayList<Integer>tempSum=new ArrayList<>(Sum);
+             tempSum.clear();
+             for (Integer integer : winner) {
+                 tempSum.add(Sum.get(integer));
+             }
+            int max=Collections.max(tempSum);
+            if(Collections.frequency(tempSum,max)==3){
+                System.out.println("Tie");
+            }
+            else if(Collections.frequency(tempSum,max)==2){
+                int []winnerSum=new int[2];
+                index=0;
+                for (int i = 0; i < tempSum.size(); i++) {
+                    if(tempSum.get(i)==max){
+                        winnerSum[index++]=i;
+                    }
+                }
+                System.out.println(players.get(winner.get(winnerSum[0]))+" and "+players.get(winner.get(winnerSum[1]))+" win");
+            }
+            else{
+                int winnerSum=0;
+                for (int i = 0; i < tempSum.size(); i++) {
+                    if(tempSum.get(i)==max){
+                        winnerSum=i;
+                    }
+                }
+                System.out.println(players.get(winner.get(winnerSum))+" wins with higher value");
+            }
+         }
      System.out.println(player1Rank);
      System.out.println(player2Rank);
      System.out.println(player3Rank);
@@ -599,5 +652,12 @@ public class game2 {
              tempCards.remove(n);
          }
          return player;
+     }
+     public static int SumOFPlayers(ArrayList<Integer>values){
+         int sum=0;
+         for (int i:values) {
+             sum+=i;
+         }
+         return sum;
      }
 }
