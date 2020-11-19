@@ -19,6 +19,7 @@ public class game2 {
      static int player2Rank;
      static int player3Rank;
      static int NumOfPpl=1;
+     static boolean AceStraight;
      public static void main(String[] args) {
         System.out.println(Cards);
         System.out.println(Deck);
@@ -37,14 +38,13 @@ public class game2 {
         TheTurn(player1);
         TheTurn(player2);
         TheTurn(player3);
-        ShowResult();
         CommunityCards(4,5);
         NumOfPpl=1;
         TheRiver(player1);
         TheRiver(player2);
         TheRiver(player3);
         ShowResult();
-    }
+     }
      public static ArrayList<String> Cards() {
         ArrayList<String> Cards=new ArrayList<>();
         for (String s : cards) {
@@ -91,6 +91,7 @@ public class game2 {
         boolean isThreeOfAKind=false;
         boolean isPair=false;
         int flush=0;
+        AceStraight=false;
         for (int i = 0; i < player.size(); i++) {
             flush=Collections.frequency(CardSuits(player),CardSuits(player).get(i));
             if(flush>=5){
@@ -140,6 +141,7 @@ public class game2 {
                 }
             }
         if(CardsValue(player).contains(2)&&CardsValue(player).contains(3)&&CardsValue(player).contains(4)&&CardsValue(player).contains(5)&&CardsValue(player).contains(14)){
+            AceStraight=true;
             isStraight=true;
         }
         if(flush>=5){
@@ -288,9 +290,31 @@ public class game2 {
          }
     }
      public static void ShowResult(){
-        System.out.println(player1Rank);
-        System.out.println(player2Rank);
-        System.out.println(player3Rank);
+     ArrayList<String>players=new ArrayList<>();
+     players.add("player1");
+     players.add("player2");
+     players.add("player3");
+     ArrayList<Integer>ranks=new ArrayList<>();
+     ranks.add(player1Rank);
+     ranks.add(player2Rank);
+     ranks.add(player3Rank);
+     ArrayList<Integer>winner=new ArrayList<>();
+     int min=Collections.min(ranks);
+     int index=0;
+         for (int i:ranks) {
+             if(min==i){
+                 winner.add(index);
+             }
+             index++;
+         }
+         System.out.println();
+         if(winner.size()==1){
+             System.out.println(players.get(winner.get(0))+" wins");
+         }
+
+     System.out.println(player1Rank);
+     System.out.println(player2Rank);
+     System.out.println(player3Rank);
     }
      public static ArrayList<Integer>CardsValue(ArrayList<String>player){
          ArrayList<Integer>value=new ArrayList<>();
@@ -363,21 +387,21 @@ public class game2 {
                 }
             }
             tempCards.removeAll(TempCards);
-            TempCards.add(Sort(tempCards).get(2));
+            TempCards.add(Sort(tempCards).get(1));
         }
         else if(rank==4){
             ArrayList<String>tempCards=new ArrayList<>(TempCards);
             ArrayList<Integer>value=new ArrayList<>(CardsValue(TempCards));
             TempCards.clear();
             for (int i = 0; i < tempCards.size(); i++) {
-                if(Collections.frequency(value,value.get(i))>=2){
+                if(Collections.frequency(value,value.get(i))==3){
                     TempCards.add(tempCards.get(i));
                 }
             }
-            Sort(TempCards);
-           Collections.reverse(TempCards);
-            if(TempCards.size()>5){
-                TempCards.remove(TempCards.size()-1);
+            for (int i = 0; i < tempCards.size(); i++) {
+                if(Collections.frequency(value,value.get(i))==2){
+                    TempCards.add(tempCards.get(i));
+                }
             }
         }
         else if(rank==5){
@@ -408,9 +432,8 @@ public class game2 {
                     i--;
                 }
             }
-            Collections.sort(TempCards);
+           Sort(TempCards);
             Straight(TempCards);
-
         }
         else if(rank==7){
             ArrayList<Integer>value=new ArrayList<>(CardsValue(TempCards));
@@ -443,17 +466,17 @@ public class game2 {
                     TempCards.add(tempCards.get(i));
                 }
             }
-            Collections.sort(TempCards);
+            Sort(TempCards);
+            Collections.reverse(TempCards);
             tempCards.removeAll(TempCards);
             Sort(tempCards);
-            if(player.size()==7){
-                tempCards.remove(0);
-                tempCards.remove(0);
-                TempCards.addAll(tempCards);
-            }
-            else if(player.size()==6){
-                tempCards.remove(0);
-                TempCards.addAll(tempCards);
+            Collections.reverse(tempCards);
+            TempCards.addAll(tempCards);
+            if(player.size()==7) {
+                TempCards.remove(TempCards.size() - 1);
+                TempCards.remove(TempCards.size() - 1);
+            }else{
+                TempCards.remove(TempCards.size() - 1);
             }
         }
         else if(rank==9){
@@ -465,17 +488,17 @@ public class game2 {
                     TempCards.add(tempCards.get(i));
                 }
             }
-            Collections.sort(TempCards);
+            Sort(TempCards);
+            Collections.reverse(TempCards);
             tempCards.removeAll(TempCards);
             Sort(tempCards);
-            if(player.size()==7){
-                tempCards.remove(0);
-                tempCards.remove(0);
-                TempCards.addAll(tempCards);
-            }
-            else if(player.size()==6){
-                tempCards.remove(0);
-                TempCards.addAll(tempCards);
+            Collections.reverse(tempCards);
+            TempCards.addAll(tempCards);
+            if(player.size()==7) {
+                TempCards.remove(TempCards.size() - 1);
+                TempCards.remove(TempCards.size() - 1);
+            }else{
+                TempCards.remove(TempCards.size() - 1);
             }
         }
         else{
@@ -505,7 +528,13 @@ public class game2 {
                  }
              }
          }
+         Sort(player);
          if(player.size()==7){
+             if(straight==0&&AceStraight){
+                 for (int i = 0; i < 2; i++) {
+                     player.remove(4);
+                 }
+             }
              if(straight==4){
                  if(sort.get(1)!=sort.get(2)-1){
                     sort.remove(0);
@@ -532,15 +561,11 @@ public class game2 {
                  sort.remove(0);
                  sort.remove(0);
              }
-             for (int i = 0; i <eachNum.size(); i++) {
-                 if(!sort.contains(eachNum.get(i))){
-                     player.remove(i);
-                     eachNum.remove(i);
-                     i--;
-                 }
-             }
          }
          else if(player.size()==6){
+             if(straight==0&&AceStraight){
+                 player.remove(4);
+             }
              if(straight==4){
                  if(sort.get(0)!=sort.get(1)-1){
                      sort.remove(0);
@@ -552,12 +577,12 @@ public class game2 {
              else if(straight==5){
                  sort.remove(0);
              }
-             for (int i = 0; i < eachNum.size(); i++) {
-                 if(!sort.contains(eachNum.get(i))){
-                     player.remove(i);
-                     eachNum.remove(i);
-                     i--;
-                 }
+         }
+         for (int i = 0; i < eachNum.size(); i++) {
+             if(!sort.contains(eachNum.get(i))){
+                 player.remove(i);
+                 eachNum.remove(i);
+                 i--;
              }
          }
      }
