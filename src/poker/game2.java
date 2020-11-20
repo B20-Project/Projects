@@ -20,6 +20,7 @@ public class game2 {
      static int player3Rank;
      static int NumOfPpl=1;
      static boolean AceStraight;
+
      public static void main(String[] args) {
         System.out.println(Cards);
         System.out.println(Deck);
@@ -330,10 +331,137 @@ public class game2 {
              }
              System.out.println(players.get(winner.get(0))+" wins "+"with Rank "+rank);
          }
-         else if(player1Rank==8||player2Rank==8||player3Rank==8){
-             if(player1Rank==8&&player2Rank==8&&player3Rank==8){
+         else if(Collections.min(ranks)==8){
+             ArrayList<Integer>winnerIndex=new ArrayList<>();
+             ArrayList<Integer>winnerIndex1=new ArrayList<>();
+             ArrayList<Integer>winnerIndex2=new ArrayList<>();
+             int player1value=CardsValue(Show5Cards(player1,player1Rank)).get(0);
+             int player2value=CardsValue(Show5Cards(player2,player2Rank)).get(0);
+             int player3value=CardsValue(Show5Cards(player3,player3Rank)).get(0);
+             int player1value2=CardsValue(Show5Cards(player1,player1Rank)).get(2);
+             int player2value2=CardsValue(Show5Cards(player2,player2Rank)).get(2);
+             int player3value2=CardsValue(Show5Cards(player3,player3Rank)).get(2);
+             int player1value3=CardsValue(Show5Cards(player1,player1Rank)).get(4);
+             int player2value3=CardsValue(Show5Cards(player2,player2Rank)).get(4);
+             int player3value3=CardsValue(Show5Cards(player3,player3Rank)).get(4);
+             winnerIndex.add(player1value);
+             winnerIndex.add(player2value);
+             winnerIndex.add(player3value);
 
-             }
+             winnerIndex1.add(player1value2);
+             winnerIndex1.add(player2value2);
+             winnerIndex1.add(player3value2);
+
+             winnerIndex2.add(player1value3);
+             winnerIndex2.add(player2value3);
+             winnerIndex2.add(player3value3);
+             int max=Collections.max(winnerIndex);
+             if(Collections.frequency(ranks,8)==3){
+                 if(Collections.frequency(winnerIndex,max)==1){
+                    System.out.println(players.get(winnerIndex.indexOf(max))+" wins");
+                }
+                else if(Collections.frequency(winnerIndex,max)==2){
+                    ArrayList<Integer>Index=new ArrayList<>();
+                    for (int i = 0; i < winnerIndex.size(); i++) {
+                        if(winnerIndex.get(i)==max){
+                            Index.add(i);
+                        }
+                    }
+                   if(winnerIndex1.get(Index.get(0))>winnerIndex1.get(Index.get(1))){
+                       System.out.println(players.get(Index.get(0))+" wins");
+                   }
+                   else if(winnerIndex1.get(Index.get(1))>winnerIndex1.get(Index.get(0))){
+                        System.out.println(players.get(Index.get(1))+" wins");
+                    }
+                   else {
+                       if(winnerIndex2.get(Index.get(0))>winnerIndex2.get(Index.get(0))){
+                           System.out.println(players.get(Index.get(0))+" wins");
+                       }
+                       else if(winnerIndex2.get(Index.get(1))>winnerIndex2.get(Index.get(0))){
+                           System.out.println(players.get(Index.get(1))+" wins");
+                       }
+                       else {
+                           System.out.println(players.get(Index.get(0))+" and "+players.get(Index.get(1))+" win");
+                       }
+                   }
+                }
+                else{
+                   max=Collections.max(winnerIndex1);
+                   if(Collections.frequency(winnerIndex1,max)==1){
+                       System.out.println(players.get(winnerIndex1.indexOf(max))+" wins");
+                   }
+                   else if(Collections.frequency(winnerIndex1,max)==2){
+                       ArrayList<Integer>Index=new ArrayList<>();
+                       for (int i = 0; i < winnerIndex1.size(); i++) {
+                           if(winnerIndex1.get(i)==max){
+                               Index.add(i);
+                           }
+                       }
+                       if(winnerIndex2.get(Index.get(0))>winnerIndex2.get(Index.get(1))){
+                           System.out.println(players.get(Index.get(0))+" wins");
+                       }
+                       else if(winnerIndex2.get(Index.get(1))>winnerIndex2.get(Index.get(0))){
+                           System.out.println(players.get(Index.get(1))+" wins");
+                       }
+                       else {
+                           System.out.println(players.get(Index.get(0))+" and "+players.get(Index.get(1))+" win");
+                       }
+                   }
+                   else if(Collections.frequency(winnerIndex1,max)==3){
+                       max=Collections.max(winnerIndex2);
+                       if(Collections.frequency(winnerIndex2,max)==1){
+                           System.out.println(players.get(winnerIndex2.indexOf(max))+" wins");
+                       }
+                       else if(Collections.frequency(winnerIndex2,max)==2){
+                           ArrayList<Integer>Index=new ArrayList<>();
+                           for (int i = 0; i < winnerIndex2.size(); i++) {
+                               if(winnerIndex2.get(i)==max){
+                                   Index.add(i);
+                               }
+                           }
+                           System.out.println(players.get(Index.get(0))+" and "+players.get(Index.get(1)));
+                       }
+                       else {
+                           System.out.println("Tie");
+                       }
+                   }
+
+                }
+            }
+            else{
+                 ArrayList<Integer>IndexCopy=new ArrayList<>();
+                 int indexOF8=0;
+                 for (int i:ranks) {
+                     if(i==8){
+                         IndexCopy.add(indexOF8);
+                     }
+                     else{
+                         winnerIndex.set(indexOF8,0);
+                         winnerIndex1.set(indexOF8,0);
+                         winnerIndex2.set(indexOF8,0);
+                     }
+                     indexOF8++;
+                 }
+                 max=Collections.max(winnerIndex);
+                 if(Collections.frequency(winnerIndex,max)==1){
+                     System.out.println(players.get(winnerIndex.indexOf(max))+" wins");
+                 }
+                 else if(Collections.frequency(winnerIndex,max)==2){
+                   max=Collections.max(winnerIndex1);
+                   if(Collections.frequency(winnerIndex1,max)==1){
+                       System.out.println(players.get(winnerIndex1.indexOf(max))+ " wins");
+                   }
+                   else{
+                       max=Collections.max(winnerIndex2);
+                       if(Collections.frequency(winnerIndex2,max)==1){
+                           System.out.println(players.get(winnerIndex2.indexOf(max))+" wins");
+                       }
+                       else{
+                           System.out.println(players.get(IndexCopy.get(0))+" and "+players.get(IndexCopy.get(0))+" win");
+                       }
+                   }
+                 }
+            }
          }
          else{
              ArrayList<Integer>tempSum=new ArrayList<>(Sum);
