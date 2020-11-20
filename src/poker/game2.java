@@ -457,12 +457,41 @@ public class game2 {
                            System.out.println(players.get(winnerIndex2.indexOf(max))+" wins");
                        }
                        else{
-                           System.out.println(players.get(IndexCopy.get(0))+" and "+players.get(IndexCopy.get(0))+" win");
+                           System.out.println(players.get(IndexCopy.get(0))+" and "+players.get(IndexCopy.get(1))+" win");
                        }
                    }
                  }
             }
          }
+         else if(Collections.min(ranks)==9){
+             ArrayList<Integer>winnerIndex=new ArrayList<>();
+             ArrayList<Integer>winnerIndex1=new ArrayList<>();
+             ArrayList<Integer>winnerIndex2=new ArrayList<>();
+             int player1value=CardsValue(Show5Cards(player1,player1Rank)).get(0);
+             int player2value=CardsValue(Show5Cards(player2,player2Rank)).get(0);
+             int player3value=CardsValue(Show5Cards(player3,player3Rank)).get(0);
+             int player1value2=CardsValue(Show5Cards(player1,player1Rank)).get(2);
+             int player2value2=CardsValue(Show5Cards(player2,player2Rank)).get(2);
+             int player3value2=CardsValue(Show5Cards(player3,player3Rank)).get(2);
+             winnerIndex.add(player1value);
+             winnerIndex.add(player2value);
+             winnerIndex.add(player3value);
+
+             winnerIndex1.add(player1value2);
+             winnerIndex1.add(player2value2);
+             winnerIndex1.add(player3value2);
+
+             winnerIndex2.add(player1Sum);
+             winnerIndex2.add(player2Sum);
+             winnerIndex2.add(player3Sum);
+             int max=Collections.max(winnerIndex);
+             if(Collections.frequency(ranks,9)==3){
+                 if(Collections.frequency(winnerIndex,max)==1){
+                     System.out.println(players.get(winnerIndex.indexOf(max))+" wins");
+                 }
+             }
+         }
+
          else{
              ArrayList<Integer>tempSum=new ArrayList<>(Sum);
              tempSum.clear();

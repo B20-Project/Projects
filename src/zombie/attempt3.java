@@ -14,8 +14,8 @@ public class attempt3 {
         while(!Arrays.toString(inhabitants).equals(Arrays.toString(array))) {
             day++;
             int zeroCount = 0;
-            for (int i = 0; i < inhabitants.length; i++) {
-                if (inhabitants[i] == 0) {
+            for (int inhabitant : inhabitants) {
+                if (inhabitant == 0) {
                     zeroCount++;
                 }
             }
