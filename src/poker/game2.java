@@ -25,25 +25,12 @@ public class game2 {
         System.out.println(Cards);
         System.out.println(Deck);
         System.out.println();
-        HoleCards(player1);
-        HoleCards(player2);
-        HoleCards(player3);
+        HoleCards();
+        TheFlop();
         NumOfPpl=1;
-        System.out.println();
-        CommunityCards(0,3);
-        TheFlop(player1);
-        TheFlop(player2);
-        TheFlop(player3);
-        CommunityCards(3,4);
+        TheRiver();
         NumOfPpl=1;
-        TheTurn(player1);
-        TheTurn(player2);
-        TheTurn(player3);
-        CommunityCards(4,5);
-        NumOfPpl=1;
-        TheRiver(player1);
-        TheRiver(player2);
-        TheRiver(player3);
+        TheTurn();
         ShowResult();
      }
      public static ArrayList<String> Cards() {
@@ -59,7 +46,32 @@ public class game2 {
         Collections.shuffle(cards);
         return cards;
     }
-     public static void HoleCards(ArrayList<String>player){
+     public static void HoleCards(){
+        PlayersFirstTwoCards(player1);
+        PlayersFirstTwoCards(player2);
+        PlayersFirstTwoCards(player3);
+         NumOfPpl=1;
+         System.out.println();
+         CommunityCards(0,3);
+    }
+     public static void TheFlop(){
+        FirstCards(player1);
+        FirstCards(player2);
+        FirstCards(player3);
+         CommunityCards(3,4);
+    }
+     public static void TheRiver(){
+        SecondCards(player1);
+        SecondCards(player2);
+        SecondCards(player3);
+         CommunityCards(4,5);
+    }
+     public static void TheTurn(){
+        ThirdCards(player1);
+        ThirdCards(player2);
+        ThirdCards(player3);
+    }
+     public static void PlayersFirstTwoCards(ArrayList<String>player){
         player.add(Deck.get(0));
         player.add(Deck.get(1));
         System.out.println("Player:"+NumOfPpl);
@@ -75,7 +87,7 @@ public class game2 {
         System.out.println(communityCards);
         System.out.println();
     }
-     public static void TheFlop(ArrayList<String>player){
+     public static void FirstCards(ArrayList<String>player){
         player.addAll(communityCards);
         System.out.println("player"+NumOfPpl);
         System.out.println(player);
@@ -258,7 +270,7 @@ public class game2 {
         }
 
     }
-     public static void TheTurn(ArrayList<String>player){
+     public static void SecondCards(ArrayList<String>player){
         player.add(Deck.get(3));
         System.out.println("player"+NumOfPpl);
         System.out.println(player);
@@ -275,7 +287,7 @@ public class game2 {
         }
          System.out.println();
     }
-     public static void TheRiver(ArrayList<String>player){
+     public static void ThirdCards(ArrayList<String>player){
         player.add(Deck.get(4));
         System.out.println("player"+NumOfPpl);
         System.out.println(player);
@@ -465,21 +477,13 @@ public class game2 {
          }
          else if(Collections.min(ranks)==9){
              ArrayList<Integer>winnerIndex=new ArrayList<>();
-             ArrayList<Integer>winnerIndex1=new ArrayList<>();
              ArrayList<Integer>winnerIndex2=new ArrayList<>();
              int player1value=CardsValue(Show5Cards(player1,player1Rank)).get(0);
              int player2value=CardsValue(Show5Cards(player2,player2Rank)).get(0);
              int player3value=CardsValue(Show5Cards(player3,player3Rank)).get(0);
-             int player1value2=CardsValue(Show5Cards(player1,player1Rank)).get(2);
-             int player2value2=CardsValue(Show5Cards(player2,player2Rank)).get(2);
-             int player3value2=CardsValue(Show5Cards(player3,player3Rank)).get(2);
              winnerIndex.add(player1value);
              winnerIndex.add(player2value);
              winnerIndex.add(player3value);
-
-             winnerIndex1.add(player1value2);
-             winnerIndex1.add(player2value2);
-             winnerIndex1.add(player3value2);
 
              winnerIndex2.add(player1Sum);
              winnerIndex2.add(player2Sum);
@@ -489,9 +493,77 @@ public class game2 {
                  if(Collections.frequency(winnerIndex,max)==1){
                      System.out.println(players.get(winnerIndex.indexOf(max))+" wins");
                  }
+                 else if(Collections.frequency(winnerIndex,max)==2){
+                     ArrayList<Integer>Index=new ArrayList<>();
+                     for (int i = 0; i < winnerIndex.size(); i++) {
+                         if(winnerIndex.get(i)==max){
+                             Index.add(i);
+                         }
+                     }
+                     if(winnerIndex2.get(Index.get(0))>winnerIndex2.get(Index.get(1))){
+                         System.out.println(players.get(Index.get(0))+" wins");
+                     }
+                     else if(winnerIndex2.get(Index.get(1))>winnerIndex2.get(Index.get(0))){
+                         System.out.println(players.get(Index.get(1))+" wins");
+                     }
+                     else{
+                         System.out.println(players.get(Index.get(0))+" and "+players.get(Index.get(1))+" wins");
+                     }
+                 }
+                 else{
+                     max=Collections.max(winnerIndex2);
+                     if(Collections.frequency(winnerIndex2,max)==1){
+                         System.out.println(players.get(winnerIndex2.indexOf(max))+" wins");
+                     }
+                     else if(Collections.frequency(winnerIndex2,max)==2){
+                         ArrayList<Integer>Index=new ArrayList<>();
+                         for (int i = 0; i < winnerIndex2.size(); i++) {
+                             if(winnerIndex2.get(i)==max){
+                                 Index.add(i);
+                             }
+                         }
+                         if(winnerIndex2.get(Index.get(0))>winnerIndex2.get(Index.get(1))){
+                             System.out.println(players.get(Index.get(0))+" wins");
+                         }
+                         else if(winnerIndex2.get(Index.get(1))>winnerIndex2.get(Index.get(0))){
+                             System.out.println(players.get(Index.get(1))+" wins");
+                         }
+                         else{
+                             System.out.println(players.get(Index.get(0))+" and "+players.get(Index.get(1))+" wins");
+                         }
+                     }
+                     else{
+                         System.out.println("Tie");
+                     }
+                 }
+             }
+             else{
+                 ArrayList<Integer>IndexCopy=new ArrayList<>();
+                 int indexOF9=0;
+                 for (int i:ranks) {
+                     if (i == 9) {
+                         IndexCopy.add(indexOF9);
+                     } else {
+                         winnerIndex.set(indexOF9, 0);
+                         winnerIndex2.set(indexOF9, 0);
+                     }
+                     indexOF9++;
+                 }
+                     max=Collections.max(winnerIndex);
+                     if(Collections.frequency(winnerIndex,max)==1){
+                         System.out.println(players.get(winnerIndex.indexOf(max))+" wins");
+                     }
+                     else {
+                         max=Collections.max(winnerIndex2);
+                         if(Collections.frequency(winnerIndex2,max)==1){
+                             System.out.println(players.get(winnerIndex2.indexOf(max))+ " wins");
+                         }
+                         else{
+                             System.out.println(players.get(IndexCopy.get(0))+" and "+players.get(IndexCopy.get(1))+" win");
+                         }
+                     }
              }
          }
-
          else{
              ArrayList<Integer>tempSum=new ArrayList<>(Sum);
              tempSum.clear();
@@ -744,6 +816,9 @@ public class game2 {
                  for (int i = 0; i < 2; i++) {
                      player.remove(4);
                  }
+                 String temp=player.get(0);
+                 player.set(0,player.get(4));
+                 player.set(4,temp);
              }
              if(straight==4){
                  if(sort.get(1)!=sort.get(2)-1){
@@ -775,6 +850,9 @@ public class game2 {
          else if(player.size()==6){
              if(straight==0&&AceStraight){
                  player.remove(4);
+                 String temp=player.get(0);
+                 player.set(0,player.get(4));
+                 player.set(4,temp);
              }
              if(straight==4){
                  if(sort.get(0)!=sort.get(1)-1){
