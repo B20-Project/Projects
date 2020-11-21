@@ -20,7 +20,6 @@ public class game2 {
      static int player3Rank;
      static int NumOfPpl=1;
      static boolean AceStraight;
-
      public static void main(String[] args) {
         System.out.println(Cards);
         System.out.println(Deck);
@@ -305,6 +304,17 @@ public class game2 {
          System.out.println();
     }
      public static void ShowResult(){
+         ArrayList<String>Ranks=new ArrayList<>();
+         Ranks.add("Royal Flush");
+         Ranks.add("Straight Flush");
+         Ranks.add("Four Of A Kind");
+         Ranks.add("Full House");
+         Ranks.add("Flush");
+         Ranks.add("Straight");
+         Ranks.add("Three Of A Kind");
+         Ranks.add("Two Pair");
+         Ranks.add("Pair");
+         Ranks.add("High Card");
      ArrayList<String>players=new ArrayList<>();
      players.add("player1");
      players.add("player2");
@@ -341,7 +351,7 @@ public class game2 {
              else{
                  rank=player3Rank;
              }
-             System.out.println(players.get(winner.get(0))+" wins "+"with Rank "+rank);
+             System.out.println(players.get(winner.get(0))+" wins "+"with "+Ranks.get(rank-1));
          }
          else if(Collections.min(ranks)==8){
             pairs(players,ranks,4,8);
@@ -368,7 +378,18 @@ public class game2 {
                         winnerSum[index++]=i;
                     }
                 }
-                System.out.println(players.get(winner.get(winnerSum[0]))+" and "+players.get(winner.get(winnerSum[1]))+" win");
+                    int rank;
+                    if(players.get(winner.get(winnerSum[0])).contains("1")){
+                        rank=player1Rank;
+                    }
+                    else if(players.get(winner.get(winnerSum[0])).contains("2")){
+                        rank=player2Rank;
+                    }
+                    else{
+                        rank=player3Rank;
+                    }
+                System.out.println(players.get(winner.get(winnerSum[0]))+" and "+players.get(winner.get(winnerSum[1]))+" win with "+
+                        (Ranks.get(rank-1)));
             }
             else{
                 int winnerSum=0;
@@ -377,7 +398,17 @@ public class game2 {
                         winnerSum=i;
                     }
                 }
-                System.out.println(players.get(winner.get(winnerSum))+" wins with higher value");
+                int rank;
+                if(players.get(winner.get(winnerSum)).contains("1")){
+                    rank=player1Rank;
+                }
+                else if(players.get(winner.get(winnerSum)).contains("2")){
+                    rank=player2Rank;
+                }
+                else{
+                    rank=player3Rank;
+                }
+                System.out.println(players.get(winner.get(winnerSum))+" wins with "+Ranks.get(rank-1));
             }
          }
      System.out.println(player1Rank);
@@ -708,7 +739,12 @@ public class game2 {
          int max=Collections.max(winnerIndex);
          if(Collections.frequency(ranks,rank)==3){
              if(Collections.frequency(winnerIndex,max)==1){
-                 System.out.println(players.get(winnerIndex.indexOf(max))+" wins");
+                 if(rank==8){
+                 System.out.println(players.get(winnerIndex.indexOf(max))+" wins with two pair");
+                 }
+                 else {
+                     System.out.println(players.get(winnerIndex.indexOf(max))+" wins with one pair");
+                 }
              }
              else if(Collections.frequency(winnerIndex,max)==2){
                  ArrayList<Integer>Index=new ArrayList<>();
@@ -718,27 +754,61 @@ public class game2 {
                      }
                  }
                  if(winnerIndex1.get(Index.get(0))>winnerIndex1.get(Index.get(1))){
-                     System.out.println(players.get(Index.get(0))+" wins");
+                     if(rank==8){
+                         System.out.println(players.get(Index.get(0))+" wins with two pair");
+                     }
+                     else {
+                         System.out.println(players.get(Index.get(0))+" wins with pair");
+                     }
+
                  }
                  else if(winnerIndex1.get(Index.get(1))>winnerIndex1.get(Index.get(0))){
-                     System.out.println(players.get(Index.get(1))+" wins");
+                     if(rank==8){
+                         System.out.println(players.get(Index.get(1))+" wins with two pair");
+                     }
+                     else{
+                         System.out.println(players.get(Index.get(1))+" wins with pair");
+                     }
                  }
                  else {
                      if(winnerIndex2.get(Index.get(0))>winnerIndex2.get(Index.get(0))){
-                         System.out.println(players.get(Index.get(0))+" wins");
+                         if(rank==8){
+                             System.out.println(players.get(Index.get(0))+" wins with two pair");
+                         }
+                         else {
+                             System.out.println(players.get(Index.get(0))+" wins with pair");
+                         }
+
                      }
                      else if(winnerIndex2.get(Index.get(1))>winnerIndex2.get(Index.get(0))){
-                         System.out.println(players.get(Index.get(1))+" wins");
+                         if(rank==8){
+                             System.out.println(players.get(Index.get(1))+" wins with two pair");
+                         }
+                         else{
+                             System.out.println(players.get(Index.get(1))+" wins with pair");
+                         }
+
                      }
                      else {
-                         System.out.println(players.get(Index.get(0))+" and "+players.get(Index.get(1))+" win");
+                         if(rank==8){
+                             System.out.println(players.get(Index.get(0))+" and "+players.get(Index.get(1))+" win with two pair");
+                         }
+                         else{
+                             System.out.println(players.get(Index.get(0))+" and "+players.get(Index.get(1))+" win with pair");
+                         }
+
                      }
                  }
              }
              else{
                  max=Collections.max(winnerIndex1);
                  if(Collections.frequency(winnerIndex1,max)==1){
-                     System.out.println(players.get(winnerIndex1.indexOf(max))+" wins");
+                     if(rank==8){
+                         System.out.println(players.get(winnerIndex1.indexOf(max))+" wins with two pair");
+                     }
+                    else{
+                         System.out.println(players.get(winnerIndex1.indexOf(max))+" wins with pair");
+                     }
                  }
                  else if(Collections.frequency(winnerIndex1,max)==2){
                      ArrayList<Integer>Index=new ArrayList<>();
@@ -748,19 +818,39 @@ public class game2 {
                          }
                      }
                      if(winnerIndex2.get(Index.get(0))>winnerIndex2.get(Index.get(1))){
-                         System.out.println(players.get(Index.get(0))+" wins");
+                         if(rank==8){
+                             System.out.println(players.get(Index.get(0))+" wins with two pair");
+                         }
+                        else{
+                             System.out.println(players.get(Index.get(0))+" wins with pair");
+                         }
                      }
                      else if(winnerIndex2.get(Index.get(1))>winnerIndex2.get(Index.get(0))){
-                         System.out.println(players.get(Index.get(1))+" wins");
+                         if(rank==8){
+                             System.out.println(players.get(Index.get(1))+" wins with two pair");
+                         }
+                        else {
+                             System.out.println(players.get(Index.get(1))+" wins with pair");
+                         }
                      }
                      else {
-                         System.out.println(players.get(Index.get(0))+" and "+players.get(Index.get(1))+" win");
+                         if(rank==8){
+                             System.out.println(players.get(Index.get(0))+" and "+players.get(Index.get(1))+" win with two pair");
+                         }
+                        else{
+                             System.out.println(players.get(Index.get(0))+" and "+players.get(Index.get(1))+" win with pair");
+                         }
                      }
                  }
                  else if(Collections.frequency(winnerIndex1,max)==3){
                      max=Collections.max(winnerIndex2);
                      if(Collections.frequency(winnerIndex2,max)==1){
-                         System.out.println(players.get(winnerIndex2.indexOf(max))+" wins");
+                         if(rank==8){
+                             System.out.println(players.get(winnerIndex2.indexOf(max))+" wins with two pair");
+                         }
+                        else{
+                             System.out.println(players.get(winnerIndex2.indexOf(max))+" wins with pair");
+                         }
                      }
                      else if(Collections.frequency(winnerIndex2,max)==2){
                          ArrayList<Integer>Index=new ArrayList<>();
@@ -769,7 +859,12 @@ public class game2 {
                                  Index.add(i);
                              }
                          }
-                         System.out.println(players.get(Index.get(0))+" and "+players.get(Index.get(1)));
+                         if(rank==8){
+                             System.out.println(players.get(Index.get(0))+" and "+players.get(Index.get(1))+" win with two pair");
+                         }
+                         else{
+                             System.out.println(players.get(Index.get(0))+" and "+players.get(Index.get(1))+" win with pair");
+                         }
                      }
                      else {
                          System.out.println("Tie");
@@ -793,25 +888,44 @@ public class game2 {
              }
              max=Collections.max(winnerIndex);
              if(Collections.frequency(winnerIndex,max)==1){
-                 System.out.println(players.get(winnerIndex.indexOf(max))+" wins");
+                 if(rank==8){
+                     System.out.println(players.get(winnerIndex.indexOf(max))+" wins with two pair");
+                 }else{
+                     System.out.println(players.get(winnerIndex.indexOf(max))+" wins with pair");
+                 }
+
              }
              else if(Collections.frequency(winnerIndex,max)==2){
                  max=Collections.max(winnerIndex1);
                  if(Collections.frequency(winnerIndex1,max)==1){
-                     System.out.println(players.get(winnerIndex1.indexOf(max))+ " wins");
+                     if(rank==8){
+                         System.out.println(players.get(winnerIndex1.indexOf(max))+ " wins with two pair");
+                     }else{
+                         System.out.println(players.get(winnerIndex1.indexOf(max))+ " wins with pair");
+                     }
+
                  }
                  else{
                      max=Collections.max(winnerIndex2);
                      if(Collections.frequency(winnerIndex2,max)==1){
-                         System.out.println(players.get(winnerIndex2.indexOf(max))+" wins");
+                         if(rank==8){
+                             System.out.println(players.get(winnerIndex2.indexOf(max))+" wins with two pair");
+                         }else{
+                             System.out.println(players.get(winnerIndex2.indexOf(max))+" wins with pair");
+                         }
+
                      }
                      else{
-                         System.out.println(players.get(IndexCopy.get(0))+" and "+players.get(IndexCopy.get(1))+" win");
+                         if(rank==8){
+                             System.out.println(players.get(IndexCopy.get(0))+" and "+players.get(IndexCopy.get(1))+" win with two pair");
+                         }
+                      else{
+                             System.out.println(players.get(IndexCopy.get(0))+" and "+players.get(IndexCopy.get(1))+" win with pair");
+                         }
                      }
                  }
              }
          }
      }
-
      }
 
